@@ -4,7 +4,7 @@ import uuid
 import os 
 
 API_TOKEN = os.getenv("API_TOKEN")
-CHANNEL_ID = -1003044037858  # ID твоего канала
+CHANNEL_ID = -1002523154982  # ID твоего канала
 BOT_USERNAME = "@FluxPromptBot"
 
 bot = Bot(token=API_TOKEN)
@@ -69,4 +69,5 @@ async def catch_mention(message: types.Message):
 
 
 if __name__ == "__main__":
+
     executor.start_polling(dp, skip_updates=True)
