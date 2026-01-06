@@ -1,8 +1,22 @@
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
 from aiogram import Bot, Dispatcher, executor, types
 from telegraph import Telegraph
 import uuid
 import os 
 
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+
+def run_health_server():
+    server = HTTPServer(("0.0.0.0", 10000), HealthHandler)
+    server.serve_forever()
+    
 API_TOKEN = os.getenv("API_TOKEN")
 CHANNEL_ID = -1002523154982  # ID твоего канала
 BOT_USERNAME = "@FluxPromptBot"
@@ -69,5 +83,6 @@ async def catch_mention(message: types.Message):
 
 
 if __name__ == "__main__":
-
+    threading.Thread(target=run_health_server, daemon=True).start()
     executor.start_polling(dp, skip_updates=True)
+
